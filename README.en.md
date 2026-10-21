@@ -25,8 +25,8 @@ A Python console program that finds **all perfect numbers in a user-defined rang
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/perfect-numbers-tool.git
-cd perfect-numbers-tool
+git clone https://github.com/falquuu/ai.git
+cd ai
 ```
 
 ### 2. Install dependencies

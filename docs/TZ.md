@@ -127,7 +127,7 @@
 | 8 | Euclid. Elements, Book IX, Prop. 36 (чётные совершенные числа) | Проверка результатов |
 | 9 | README.md / README.en.md; `docs/maintenance.md`; `docs/test-cases.md`; `docs/GIT.md` | Сопутствующая документация проекта |
 
-Все документы проекта находятся в репозитории: `https://github.com/<ваш-логин>/perfect-numbers-tool`.
+Все документы проекта находятся в репозитории: `https://github.com/falquuu/perfect-numbers-tool`.
 
 ## 1.5 Краткое описание
 

@@ -25,8 +25,8 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/<ваш-логин>/perfect-numbers-tool.git
-cd perfect-numbers-tool
+git clone https://github.com/falquuu/ai.git
+cd ai
 ```
 
 ### 2. Установка зависимостей

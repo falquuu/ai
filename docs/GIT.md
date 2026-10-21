@@ -69,7 +69,7 @@ git push -u origin feature/my-change
 ## 7. Первичная публикация
 
 ```bash
-git remote add origin https://github.com/<ваш-логин>/perfect-numbers-tool.git
+git remote add origin https://github.com/falquuu/ai.git
 git push -u origin main
 git push origin develop
 git push origin --tags
