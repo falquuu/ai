@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "perfect-numbers-tool"
+version = "1.0.0"
+description = "Поиск совершенных чисел и резервное копирование истории сканирований числовой оси"
+requires-python = ">=3.10"
+readme = "README.md"
+
+[project.scripts]
+perfect-numbers = "perfect_numbers.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
