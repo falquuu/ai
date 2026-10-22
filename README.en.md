@@ -2,6 +2,11 @@
 
 [🇷🇺 Русский](README.md) · 🇬🇧 English
 
+| | |
+|---|---|
+| **Author (executor)** | Vadim S. Kudryashov |
+| **Reviewer** | Viktoriya D. Shashkova |
+
 ## 📋 Project description
 
 A Python console program that finds **all perfect numbers in a user-defined range** (a perfect number equals the sum of its positive divisors, excluding the number itself: 6 = 1 + 2 + 3), with input and output via console or file. The project includes a **backup and restore subsystem for the history of number-line scans**, user documentation and test cases.
@@ -274,3 +279,9 @@ python -m perfect_numbers restore                      # back to the single-reco
 - [Maintenance regulations](docs/maintenance.md) (Russian)
 - [Test cases and results](docs/test-cases.md) (Russian)
 - [Repository rules](docs/GIT.md) (Russian)
+
+---
+
+**Executor:** ______________ / V. S. Kudryashov /  «___» ____________ 2026
+
+**Reviewer:** ______________ / V. D. Shashkova /  «___» ____________ 2026
