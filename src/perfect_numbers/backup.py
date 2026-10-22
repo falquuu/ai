@@ -14,7 +14,7 @@ import hashlib
 import json
 import os
 import tempfile
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 HISTORY_VERSION = 1
@@ -142,14 +142,13 @@ class HistoryManager:
         except StorageError as err:
             raise BackupError(f"Копия не создана: {err}") from err
 
-        stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        backup = self.backup_dir / f"history_{stamp}.json"
+        now, backup = self._next_backup_slot()
         manifest = {
             "file": backup.name,
             "sha256": sha256_bytes(raw),
             "records": len(records),
             "size": len(raw),
-            "created_at": datetime.now().isoformat(timespec="seconds"),
+            "created_at": now.isoformat(timespec="seconds"),
         }
         try:
             atomic_write_bytes(backup, raw)
@@ -161,6 +160,21 @@ class HistoryManager:
             raise BackupError(f"Не удалось записать копию: {err}") from err
         self._rotate()
         return backup
+
+    def _next_backup_slot(self) -> tuple[datetime, Path]:
+        """Время и имя новой копии: всегда уникальное и позже всех существующих.
+
+        На Windows системные часы грубее (≈15 мс), поэтому две копии подряд
+        могли получить одинаковое имя; при совпадении время сдвигается на 1 мкс.
+        """
+        existing = self._backup_files()
+        last_name = existing[-1].name if existing else ""
+        now = datetime.now()
+        while True:
+            backup = self.backup_dir / f"history_{now.strftime('%Y%m%d_%H%M%S_%f')}.json"
+            if backup.name > last_name and not backup.exists():
+                return now, backup
+            now += timedelta(microseconds=1)
 
     def _backup_files(self) -> list[Path]:
         if not self.backup_dir.is_dir():

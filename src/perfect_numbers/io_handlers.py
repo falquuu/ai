@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Callable
 
@@ -99,7 +100,7 @@ def read_range_console(
                 values.append(_to_int(raw, "Ввод"))
                 break
             except InputError as err:
-                print(f"Ошибка: {err}")
+                print(f"Ошибка: {err}", file=sys.stderr)
         else:
             raise InputError(f"Превышено число попыток ввода ({attempts}).")
     return values[0], values[1]

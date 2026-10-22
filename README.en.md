@@ -208,7 +208,7 @@ A segmented divisor-sum sieve: for a range `[a; b]` an array of `b − a + 1` on
 
 ## 🧪 Testing
 
-The project includes **67 automated tests** and **41 test cases**:
+The project includes **68 automated tests** and **42 test cases**:
 
 **Unit tests:**
 

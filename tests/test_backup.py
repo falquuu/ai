@@ -1,7 +1,9 @@
+import datetime as real_datetime
 import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from perfect_numbers.backup import BackupError, HistoryManager, StorageError
 
@@ -101,6 +103,27 @@ class TestBackup(BackupTestCase):
     def test_verify_missing_backup(self):
         with self.assertRaises(BackupError):
             self.manager.verify_backup(self.dir / "none.json")
+
+
+class TestCoarseClock(BackupTestCase):
+    """Windows: системные часы с шагом ≈15 мс — имена копий не должны совпадать."""
+
+    def test_backup_names_unique_with_frozen_clock(self):
+        frozen = real_datetime.datetime(2026, 10, 21, 12, 0, 0)
+
+        class FrozenDatetime(real_datetime.datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return frozen
+
+        self.manager.add_record(RESULT_A)
+        with mock.patch("perfect_numbers.backup.datetime", FrozenDatetime):
+            first = self.manager.create_backup()
+            second = self.manager.create_backup()
+            third = self.manager.create_backup()
+        self.assertEqual(len({first, second, third}), 3)
+        self.assertEqual(sorted([first, second, third]), [first, second, third])
+        self.assertEqual([i["path"] for i in self.manager.list_backups()], [third, second, first])
 
 
 class TestRestore(BackupTestCase):

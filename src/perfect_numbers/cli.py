@@ -145,7 +145,19 @@ _COMMANDS = {
 }
 
 
+def _ensure_unicode_streams() -> None:
+    """Кириллица не должна ронять программу в консолях с узкой кодировкой (cp1252 и т. п.)."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure:
+            try:
+                reconfigure(errors="replace")
+            except (ValueError, OSError):
+                pass
+
+
 def main(argv: list[str] | None = None) -> int:
+    _ensure_unicode_streams()
     parser = build_parser()
     try:
         args = parser.parse_args(argv)

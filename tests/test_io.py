@@ -1,3 +1,5 @@
+import contextlib
+import io
 import json
 import tempfile
 import unittest
@@ -95,11 +97,15 @@ class TestConsole(unittest.TestCase):
 
     def test_console_retry_after_bad_input(self):
         answers = iter(["abc", "1", "100"])
-        self.assertEqual(read_range_console(lambda _: next(answers)), (1, 100))
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            self.assertEqual(read_range_console(lambda _: next(answers)), (1, 100))
+        self.assertIn("Ошибка", err.getvalue())
 
     def test_console_attempts_exceeded(self):
-        with self.assertRaises(InputError):
-            read_range_console(lambda _: "x", attempts=2)
+        with contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(InputError):
+                read_range_console(lambda _: "x", attempts=2)
 
 
 if __name__ == "__main__":
